@@ -308,6 +308,26 @@ class HTML(AbstractOutput):
         }
 
 
+class Molecule(AbstractOutput):
+    """
+    Component renders an output molecule.
+    Input type: str
+    """
+
+    def __init__(self, label=None):
+        '''
+        Parameters:
+        label (str): component name in interface.
+        '''
+        super().__init__(label)
+
+    @classmethod
+    def get_shortcut_implementations(cls):
+        return {
+            "molecule": {},
+        }        
+
+
 # Automatically adds all shortcut implementations in AbstractInput into a dictionary.
 shortcuts = {}
 for cls in AbstractOutput.__subclasses__():

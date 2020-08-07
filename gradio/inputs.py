@@ -447,6 +447,26 @@ class Microphone(AbstractInput):
         return filename
 
 
+class Molecule(AbstractInput):
+    """
+    Component creates a Molecule input interface.
+    Input type: str
+    """
+
+    def __init__(self, label=None):
+        '''
+        Parameters:
+        label (str): component name in interface.
+        '''
+        super().__init__(label)
+
+    @classmethod
+    def get_shortcut_implementations(cls):
+        return {
+            "molecule": {},
+        }
+
+
 # Automatically adds all shortcut implementations in AbstractInput into a dictionary.
 shortcuts = {}
 for cls in AbstractInput.__subclasses__():

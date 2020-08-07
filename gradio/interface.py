@@ -46,7 +46,7 @@ class Interface:
             Interface.instances)
 
     def __init__(self, fn, inputs, outputs, verbose=False, examples=None,
-                 live=False, show_input=True, show_output=True,
+                 live=False, show_input=True, show_output=True, layout="horizontal",
                  capture_session=False, title=None, description=None,
                  thumbnail=None,  server_port=None, server_name=networking.LOCALHOST_NAME,
                  allow_screenshot=True, allow_flagging=True,
@@ -63,6 +63,7 @@ class Interface:
         and underlays it in the output.
         show_output (bool): if False, removes the output from the interface
         and overlays it in the input.
+        layout (str): Layout of interfaces. One of: "horizontal", "vertical". 
         capture_session (bool): if True, captures the default graph and session (needed for Tensorflow 1.x)
         title (str): a title for the interface; if provided, appears above the input and output components.
         description (str): a description for the interface; if provided, appears above the input and output components.
@@ -111,6 +112,7 @@ class Interface:
         self.live = live
         self.show_input = show_input
         self.show_output = show_output
+        self.layout = layout
         self.flag_hash = random.getrandbits(32)
         self.capture_session = capture_session
         self.session = None
@@ -174,6 +176,7 @@ class Interface:
             "live": self.live,
             "show_input": self.show_input,
             "show_output": self.show_output,
+            "layout": self.layout,
             "title": self.title,
             "description": self.description,
             "thumbnail": self.thumbnail,

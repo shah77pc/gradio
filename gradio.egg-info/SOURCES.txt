@@ -36,6 +36,7 @@ gradio/static/css/interfaces/output/textbox.css
 gradio/static/css/vendor/icons.svg
 gradio/static/css/vendor/jquery-ui.css
 gradio/static/css/vendor/jsonTree.css
+gradio/static/css/vendor/kekule.css
 gradio/static/css/vendor/tui-color-picker.css
 gradio/static/css/vendor/tui-image-editor.css
 gradio/static/css/vendor/images/ui-bg_flat_0_aaaaaa_40x100.png
@@ -67,6 +68,7 @@ gradio/static/js/interfaces/input/checkbox_group.js
 gradio/static/js/interfaces/input/dropdown.js
 gradio/static/js/interfaces/input/image.js
 gradio/static/js/interfaces/input/microphone.js
+gradio/static/js/interfaces/input/molecule.js
 gradio/static/js/interfaces/input/radio.js
 gradio/static/js/interfaces/input/sketchpad.js
 gradio/static/js/interfaces/input/slider.js
@@ -75,6 +77,7 @@ gradio/static/js/interfaces/input/webcam.js
 gradio/static/js/interfaces/output/image.js
 gradio/static/js/interfaces/output/key_values.js
 gradio/static/js/interfaces/output/label.js
+gradio/static/js/interfaces/output/molecule.js
 gradio/static/js/interfaces/output/textbox.js
 gradio/static/js/vendor/FileSaver.min.js
 gradio/static/js/vendor/black-theme.js
@@ -84,6 +87,7 @@ gradio/static/js/vendor/jquery-ui.min.js
 gradio/static/js/vendor/jquery.min.js
 gradio/static/js/vendor/jquery.ui.touch-punch.js
 gradio/static/js/vendor/jsonTree.js
+gradio/static/js/vendor/kekule.min.js
 gradio/static/js/vendor/p5.dom.min.js
 gradio/static/js/vendor/p5.min.js
 gradio/static/js/vendor/p5.sound.min.js

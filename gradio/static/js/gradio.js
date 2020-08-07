@@ -42,13 +42,15 @@ function gradio(config, fn, target) {
       "checkboxgroup" : checkbox_group,
       "slider" : slider,
       "dropdown" : dropdown,
+      "molecule" : molecule_input,
     }
     let output_to_object_map = {
       "csv" : {},
       "image" : image_output,
       "label" : label_output,
       "keyvalues" : key_values,
-      "textbox" : textbox_output
+      "textbox" : textbox_output,
+      "molecule" : molecule_output
     }
     let id_to_interface_map = {}
     
@@ -164,7 +166,9 @@ function gradio(config, fn, target) {
     if (!config.show_input) {
       target.find(".input_panel").hide();
     }
-
+    if (config.layout == "vertical") {
+      target.find(".panels").css("flex-direction", "column")
+    }
     target.find(".flag").click(function() {
     if (io_master.last_output) {
       target.find(".flag").addClass("flagged");
