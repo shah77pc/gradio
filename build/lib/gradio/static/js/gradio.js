@@ -24,7 +24,6 @@ function gradio(config, fn, target, example_file_path) {
         <div class="output_interfaces">
         </div>
         <div class="panel_buttons">
-          <input class="interpret panel_button" type="button" value="INTERPRET"/>
           <input class="screenshot panel_button" type="button" value="SCREENSHOT"/>
           <div class="screenshot_logo">
             <img src="/static/img/logo_inline.png">
