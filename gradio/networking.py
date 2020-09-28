@@ -156,7 +156,7 @@ def serve_files_in_background(interface, port, directory_to_serve=None, server_n
                     int(self.headers["Content-Length"]))
                 msg = json.loads(data_string)
                 raw_input = msg["data"]
-                prediction, durations = interface.process(raw_input)
+                prediction, durations = interface.process(json.dumps(raw_input))
                 output = {"data": prediction, "durations": durations}
                 with open("log.log", "a") as plog:
                     plog.write("+")

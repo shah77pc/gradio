@@ -18,6 +18,7 @@ label, input[type=radio], input[type=checkbox], select, input[type=range], butto
 }
 
 .loading_time {
+  display: none;
   color: #e67e22;
   text-align: right;
   font-family: monospace;

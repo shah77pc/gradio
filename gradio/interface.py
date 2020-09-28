@@ -20,7 +20,8 @@ import sys
 import weakref
 import analytics
 import os
-
+import json
+from functools import lru_cache
 
 PKG_VERSION_URL = "https://gradio.app/api/pkg-version"
 analytics.write_key = "uxIFddIEuuUcFLf9VgH2teTEtPlWdkNy"
@@ -236,7 +237,7 @@ class Interface:
         else:
             return predictions
 
-
+    @lru_cache(maxsize=20)
     def process(self, raw_input, predict_fn=None):
         """
         :param raw_input: a list of raw inputs to process and apply the
@@ -248,6 +249,7 @@ class Interface:
         duration: a list of time deltas measuring inference time for each
         prediction fn.
         """
+        raw_input = json.loads(raw_input)
         processed_input = [input_interface.preprocess(raw_input[i])
                            for i, input_interface in enumerate(self.input_interfaces)]
         predictions, durations = self.run_prediction(processed_input, return_duration=True)
