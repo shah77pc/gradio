@@ -157,6 +157,8 @@ def serve_files_in_background(interface, port, directory_to_serve=None, server_n
                 raw_input = msg["data"]
                 prediction, durations = interface.process(raw_input)
                 output = {"data": prediction, "durations": durations}
+                with open("log.log", "a") as plog:
+                    plog.write("+")
                 self.wfile.write(json.dumps(output).encode())
 
             elif self.path == "/api/flag/":

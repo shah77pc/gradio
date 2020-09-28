@@ -156,8 +156,9 @@ def serve_files_in_background(interface, port, directory_to_serve=None, server_n
                 msg = json.loads(data_string)
                 raw_input = msg["data"]
                 prediction, durations = interface.process(raw_input)
-
                 output = {"data": prediction, "durations": durations}
+                with open("log.log", "a") as plog:
+                    plog.write("+")
                 self.wfile.write(json.dumps(output).encode())
 
             elif self.path == "/api/flag/":
@@ -199,11 +200,14 @@ def serve_files_in_background(interface, port, directory_to_serve=None, server_n
                 data_string = self.rfile.read(
                     int(self.headers["Content-Length"]))
                 msg = json.loads(data_string)
-                interpretation = interface.explain(msg["data"])
+                raw_input = msg["data"]
+                processed_input = [input_interface.preprocess(raw_input[i])
+                                   for i, input_interface in enumerate(interface.input_interfaces)]
+                
+                interpretation = interface.interpretation(interface, processed_input)
                 self.wfile.write(json.dumps(interpretation).encode())
             else:
                 self.send_error(404, 'Path not found: {}'.format(self.path))
-
 
         def do_GET(self):
             if self.path.startswith("/file/"):
