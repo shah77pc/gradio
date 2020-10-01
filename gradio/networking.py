@@ -32,8 +32,9 @@ GRADIO_API_SERVER = "https://api.gradio.app/v1/tunnel-request"
 STATIC_TEMPLATE_LIB = pkg_resources.resource_filename("gradio", "templates/")
 STATIC_PATH_LIB = pkg_resources.resource_filename("gradio", "static/")
 
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
+### Hides the messages Flask shows on when the server starts
+logging.getLogger('werkzeug').disabled = True
+os.environ['WERKZEUG_RUN_MAIN'] = 'true'
 
 app = Flask(__name__,
     template_folder=STATIC_TEMPLATE_LIB,
@@ -149,18 +150,21 @@ def interpret():
             input_interface = copy.deepcopy(app.interface.input_interfaces[i])
             input_interface.type = gr.interpretation.expected_types[type(input_interface)]
             processed_input.append(input_interface.preprocess(x))
-    else:
-        processed_input = [input_interface.preprocess(raw_input[i])
-                            for i, input_interface in enumerate(app.interface.input_interfaces)]
-        interpreter = app.interface.interpretation
+        
+        interpretation = interpreter(app.interface, processed_input)
+        return jsonify(interpretation)
+
+    processed_input = [input_interface.preprocess(raw_input[i])
+                        for i, input_interface in enumerate(app.interface.input_interfaces)]
+    interpreter = app.interface.interpretation   
     
     if app.interface.capture_session and app.interface.session is not None:
         graph, sess = app.interface.session
         with graph.as_default():
             with sess.as_default():
-                interpretation = interpreter(app.interface, processed_input)
+                interpretation = interpreter(processed_input)
     else:
-        interpretation = interpreter(app.interface, processed_input)
+        interpretation = interpreter(processed_input)
     
     return jsonify(interpretation)
 
