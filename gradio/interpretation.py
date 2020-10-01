@@ -27,7 +27,7 @@ def default(separator=" ", n_segments=20):
     def tokenize_image(image):
         segments_slic = slic(image, n_segments=20, compactness=10, sigma=1)
         leave_one_out_tokens = []
-        replace_color = np.mean(image, axis=(0, 1))
+        replace_color = np.mean(image, axis=(0, 1))  # Use the average color in the image to replace patches
         for (i, segVal) in enumerate(np.unique(segments_slic)):
             mask = segments_slic == segVal
             white_screen = np.copy(image)

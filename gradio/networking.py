@@ -6,7 +6,7 @@ import os
 import socket
 import threading
 from flask import Flask, request, jsonify, abort, send_file, render_template
-from multiprocessing import Process
+from threading import Thread
 import pkg_resources
 from distutils import dir_util
 import gradio as gr
@@ -19,6 +19,7 @@ import requests
 import sys
 import csv
 import copy
+import logging
 
 INITIAL_PORT_VALUE = int(os.getenv(
     'GRADIO_SERVER_PORT', "7860"))  # The http server will try to open on port 7860. If not available, 7861, 7862, etc.
@@ -30,6 +31,9 @@ GRADIO_API_SERVER = "https://api.gradio.app/v1/tunnel-request"
 
 STATIC_TEMPLATE_LIB = pkg_resources.resource_filename("gradio", "templates/")
 STATIC_PATH_LIB = pkg_resources.resource_filename("gradio", "static/")
+
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 app = Flask(__name__,
     template_folder=STATIC_TEMPLATE_LIB,
@@ -149,7 +153,15 @@ def interpret():
         processed_input = [input_interface.preprocess(raw_input[i])
                             for i, input_interface in enumerate(app.interface.input_interfaces)]
         interpreter = app.interface.interpretation
-    interpretation = interpreter(app.interface, processed_input)
+    
+    if app.interface.capture_session and app.interface.session is not None:
+        graph, sess = app.interface.session
+        with graph.as_default():
+            with sess.as_default():
+                interpretation = interpreter(app.interface, processed_input)
+    else:
+        interpretation = interpreter(app.interface, processed_input)
+    
     return jsonify(interpretation)
 
 
@@ -165,14 +177,12 @@ def start_server(interface, server_port=None):
         server_port, server_port + TRY_NUM_PORTS
     )
     app.interface = interface
-    process = Process(target=app.run, kwargs={"port": port})
-    process.start()
-    return port, app, process
+    thread = Thread(target=app.run, kwargs={"port": port})
+    thread.start()
+    return port, app, thread
 
-
-def close_server(process):
-    process.terminate()
-    process.join()
+def close_server(thread):
+    thread.join()
 
 def url_request(url):
     try:
