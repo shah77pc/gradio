@@ -525,7 +525,8 @@ class Image(InputComponent):
         }
 
     def preprocess(self, x):
-        im = processing_utils.decode_base64_to_image(x)
+        im, crop_data = x
+        im = processing_utils.decode_base64_to_image(im)
         fmt = im.format
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -536,13 +537,13 @@ class Image(InputComponent):
         if self.invert_colors:
             im = PIL.ImageOps.invert(im)
         if self.type == "pil":
-            return im
+            return im, crop_data
         elif self.type == "numpy":
-            return np.array(im)
+            return np.array(im), crop_data
         elif self.type == "file":
             file_obj = tempfile.NamedTemporaryFile(suffix="."+fmt)
             im.save(file_obj.name)
-            return file_obj
+            return file_obj, crop_data
         else:
             raise ValueError("Unknown type: " + str(self.type) + ". Please choose from: 'numpy', 'pil', 'file'.")
 
@@ -556,12 +557,8 @@ class Image(InputComponent):
         im.save(f'{dir}/{filename}', 'PNG')
         return filename
 
-    def interpret(self, segments=16):
-        """
-        Calculates interpretation score of image subsections by splitting the image into subsections, then using a "leave one out" method to calculate the score of each subsection by whiting out the subsection and measuring the delta of the output value.
-        Parameters:
-        segments (int): Number of interpretation segments to split image into.
-        """
+
+    def interpret_with(self, segments=16):
         self.interpretation_segments = segments
         return self
 

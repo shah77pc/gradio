@@ -149,9 +149,9 @@ const image_input = {
       this.io_master.input(this.id, dataURL);
     } else if (this.state == "IMAGE_LOADED") {
       if (io.tool == "select") {
-        let canvas = io.cropper.getCroppedCanvas();
-        var dataURL = canvas.toDataURL("image/png");
-        this.io_master.input(this.id, dataURL);
+//        let canvas = io.cropper.getCroppedCanvas();
+//        var dataURL = canvas.toDataURL("image/png");
+        this.io_master.input(this.id, [io.image_data, io.cropper.getData()]);
       } else {
         io.io_master.input(io.id, this.image_data);
       }
