@@ -10,6 +10,7 @@ const molecule_input = {
     this.io_master.input(this.id, smile_str)
   },
   clear: function() {
+    var mols = this.composer.newDoc();
   },
 }
   
