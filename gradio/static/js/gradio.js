@@ -48,13 +48,6 @@ function gradio(config, fn, target, example_file_path) {
     </div>
     <div class="examples invisible">
       <h4>Examples</small></h4>
-      <button class="run_examples examples-content">Run All</button>
-      <button class="load_prev examples-content">Load Previous <em>(CTRL + &larr;)</em></button>
-      <button class="load_next examples-content">Load Next <em>(CTRL + &rarr;)</em></button>
-      <button class="order_similar examples-content">Order by Similarity</button>
-      <button class="view_embeddings examples-content">View Embeddings</button>
-      <button class="update_embeddings embeddings-content invisible">Update Embeddings</button>
-      <button class="view_examples embeddings-content invisible">View Examples</button>
       <div class="pages invisible">Page:</div>
       <table class="examples-content">
       </table>
