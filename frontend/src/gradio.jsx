@@ -59,9 +59,7 @@ export class GradioPage extends React.Component {
                 <a href={"https://huggingface.co/spaces/" + this.props.space}>
                   {space_name}
                 </a>{" "}
-                built with&nbsp;
-                <a href="https://gradio.app">Gradio</a>, hosted on&nbsp;
-                <a href="https://huggingface.co/spaces">Hugging Face Spaces</a>.
+                made with MoneyNull Apps
               </>
             ) : (
               <>
@@ -71,7 +69,7 @@ export class GradioPage extends React.Component {
                 </a>
                 &bull;
                 <a href="https://gradio.app" target="_blank" rel="noreferrer">
-                  built with <img className="logo" src={logo} alt="logo" />
+                 made with MoneyNull Apps/>
                 </a>
               </>
             )}
